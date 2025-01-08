@@ -1,50 +1,20 @@
-# Welcome to your Expo app 👋
+## Requirements
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+1. nvm
+2. node 21
 
-## Get started
+## Steps
 
-1. Install dependencies
+1. go in the project folder and type in terminal `npm install`
+2. (Optional)install nvm with "brew" => https://formulae.brew.sh/formula/nvm
+    - if ok close all terminal (cmd+q) logout form pc, logi again, open terminal e type "nvm". 
+    - go to project directory (where is package.json) and type "nvm use". This shouls set node 21. If there is error you need to install node 21 with "nvm install 21"
+3. type "npm run ios". This command will take much time if the "ios" folder is missing, and after that this should only run the app on ios/simulator
+~~6. auth0 for ios need an integration step => https://auth0.com/docs/quickstart/native/react-native/00-login#additional-ios-step-install-the-module-pod~~
+7. if previus points worked, you should run "npm run ios" again :)
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## to run on your iPhone
+8. to run on your phone:
+    - connect the iphone to the computer and trust it
+    - on your iPhone: Navigate to Settings > General > Device Management. Select the developer under the ENTERPRISE APPS section. Press Trust [Developer]
+    - type `npx expo run:ios -d "iPhone 15 pro di Massimo" --configuration Release`

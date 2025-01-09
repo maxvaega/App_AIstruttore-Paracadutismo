@@ -83,6 +83,7 @@ function Childrens() {
             <Drawer.Navigator
               screenOptions={{
                 headerTransparent: true,
+                headerTintColor: "#ffffff",
               }}
             >
               <Drawer.Screen

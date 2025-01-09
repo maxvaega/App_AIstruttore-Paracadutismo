@@ -1,2 +1,2 @@
 export const BASE_URL =
-  "https://a-istruttore-lambda-git-vercel-streaming-maxvaegas-projects.vercel.app";
+  "https://serverless-aistruttore-25co8luw8-ai-struttore.vercel.app";

@@ -1,62 +1,91 @@
-import { Text, View, Button, Image } from "react-native";
-import React, { useState, useCallback, useEffect } from "react";
-import { GiftedChat, IMessage } from "react-native-gifted-chat";
+import { Keyboard, Platform, View, Image, useColorScheme } from "react-native";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import {
+  GiftedChat,
+  IMessage,
+  InputToolbar,
+  Actions,
+  Composer,
+  Send,
+  Message,
+  Bubble,
+  Avatar,
+} from "react-native-gifted-chat";
 import { useAuth } from "@/hooks/useAuth";
-import { ask } from "@/src/api";
+import { useStream } from "@/hooks/useStream";
+import {
+  buildMessageFromAI,
+  buildMessageFromUser,
+  ChatHelper,
+} from "@/src/utils";
+import Markdown from "react-native-markdown-display";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ChatScreen() {
   const { user } = useAuth();
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [isTyping, setIsTyping] = useState(false);
+  const currendIdMessageAiRef = useRef<number>(Math.random());
 
   useEffect(() => {
     setMessages([
-      {
-        _id: 1,
+      buildMessageFromAI({
+        messageId: Math.random(),
         text: `Ciao ${user?.nickname}. Cosa vorresti sapere?`,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "Istruttore",
-          avatar: "https://avatar.iran.liara.run/public/42",
-        },
-      },
+      }),
     ]);
   }, []);
 
+  const { run, loading } = useStream({
+    onEndStream: () => {
+      if (Platform.OS !== "web") {
+        Keyboard.dismiss();
+      }
+    },
+    onNewPartial(partial) {
+      setMessages((previousMessages) => {
+        return ChatHelper.updateLastMessageTextAI(previousMessages, partial);
+      });
+    },
+    onStartStream() {
+      Keyboard.dismiss();
+      currendIdMessageAiRef.current = Math.random();
+      setMessages((previousMessages) => {
+        const newMessage = buildMessageFromAI({
+          text: "",
+          messageId: currendIdMessageAiRef.current,
+        });
+        const newList = ChatHelper.appendMessage(previousMessages, newMessage);
+        return newList;
+      });
+    },
+  });
+
   const onSend = useCallback((messages: IMessage[] = []) => {
     const messageText = messages[0].text;
-    setIsTyping(true);
     setMessages((previousMessages) => {
-      let list = GiftedChat.append(previousMessages, messages);
-      return list;
+      const newMessage = buildMessageFromUser({
+        messageId: Math.random(),
+        text: messageText,
+        from: "user",
+        userId: user?.sub!,
+      });
+      const newList = ChatHelper.appendMessage(previousMessages, newMessage);
+
+      return newList;
     });
 
-    ask(messageText).then((answer) => {
-      if (!answer) {
-        return;
-      }
-      setMessages((previousMessages) => {
-        let list = GiftedChat.append(previousMessages, [
-          {
-            _id: Math.random(),
-            text: answer,
-            createdAt: new Date(),
-            user: {
-              _id: 1,
-              name: "Istruttore",
-              avatar: "https://avatar.iran.liara.run/public/42",
-            },
-          },
-        ]);
-        return list;
-      });
-      setIsTyping(false);
-    });
+    run(messageText);
   }, []);
 
   const [text, setText] = useState("");
 
+  const chatContainerBackground = useThemeColor({}, "chatContainerBackground");
+  const chatComposerBackground = useThemeColor({}, "chatComposerBackground");
+
+  const aaa = useColorScheme();
+  console.log("###", aaa);
   return (
     <View
       style={{
@@ -65,18 +94,93 @@ export default function ChatScreen() {
       }}
     >
       <GiftedChat
+        disableComposer={loading}
+        messagesContainerStyle={{ backgroundColor: chatContainerBackground }}
+        renderInputToolbar={(props) => (
+          <InputToolbar
+            {...props}
+            containerStyle={{
+              backgroundColor: chatContainerBackground,
+            }}
+            primaryStyle={{
+              alignItems: "center",
+              marginLeft: 0,
+              marginRight: 8,
+              marginVertical: 8,
+              padding: 0,
+            }}
+          />
+        )}
+        renderMessage={(props) => <Message {...props} />}
+        renderComposer={(props) => (
+          <Composer
+            {...props}
+            textInputStyle={{
+              color: "#000000",
+              backgroundColor: chatComposerBackground,
+              borderWidth: 1,
+              borderRadius: 40,
+              borderColor: "#ffffff",
+              display: "flex",
+              paddingTop: 8,
+              paddingBottom: 8,
+              paddingLeft: 16,
+              paddingRight: 16,
+              margin: 0,
+            }}
+          />
+        )}
+        renderBubble={(props) => (
+          <Bubble
+            {...props}
+            renderTime={() => null}
+            wrapperStyle={{
+              left: {
+                borderRadius: 25,
+                padding: 4,
+                backgroundColor: "#ffffff",
+              },
+              right: {
+                borderRadius: 25,
+                padding: 4,
+                backgroundColor: "#ffffff",
+              },
+            }}
+          />
+        )}
+        renderSend={(props) => (
+          <Send
+            {...props}
+            disabled={!props.text}
+            containerStyle={{
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: 16,
+            }}
+          >
+            <Ionicons name="send-sharp" size={32} color={"white"} />
+          </Send>
+        )}
+        placeholder="a quanti salti prendo la licenza?"
         messages={messages}
         onSend={(messages) => onSend(messages)}
         user={{
           _id: user!.sub!,
         }}
         text={text}
-        isTyping={isTyping}
+        isTyping={loading}
         onInputTextChanged={(text) => setText(text)}
-        messagesContainerStyle={{
-          backgroundColor: "white",
-        }}
         locale="it"
+        renderMessageText={(m) => (
+          <View
+            style={{
+              marginLeft: 8,
+              marginRight: 8,
+            }}
+          >
+            <Markdown>{m.currentMessage.text}</Markdown>
+          </View>
+        )}
       />
     </View>
   );

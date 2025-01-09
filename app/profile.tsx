@@ -1,9 +1,11 @@
 import { Text, View, Button } from "react-native";
 import React from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function ProfileScreen() {
   const { logout, user } = useAuth();
+  const chatContainerBackground = useThemeColor({}, "chatContainerBackground");
 
   const onPressLogout = async () => {
     try {
@@ -18,6 +20,7 @@ export default function ProfileScreen() {
       style={{
         flex: 1,
         justifyContent: "center",
+        backgroundColor: chatContainerBackground,
       }}
     >
       <View>

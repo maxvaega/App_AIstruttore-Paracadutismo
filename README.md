@@ -15,6 +15,11 @@
 
 ## to run on your iPhone
 8. to run on your phone:
-    - connect the iphone to the computer and trust it
+    - open the file ios/myapp.xcodeproj in xcode
+    - in xcode:
+        - navigate to myapp.xcodeproj and select Signing & capabilities
+        - in the "team" dropdown, select your personal team
+        - make sure the "bundle identifier" is filled with a value
+        - connect the iphone to the computer and trust it
     - on your iPhone: Navigate to Settings > General > Device Management. Select the developer under the ENTERPRISE APPS section. Press Trust [Developer]
-    - type `npx expo run:ios -d "iPhone 15 pro di Massimo" --configuration Release`
+    - type `npx expo run:ios -d "iPhone 15 pro di Massimo" --configuration Release` in the console (replace the device name)

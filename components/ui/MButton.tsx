@@ -1,4 +1,5 @@
 import { Pressable, Text, StyleSheet } from "react-native";
+import { ThemedText } from "../ThemedText";
 
 interface Props {
   title: string;
@@ -8,7 +9,7 @@ interface Props {
 export default function (props: Props) {
   return (
     <Pressable style={styles.button} onPress={props.onPress}>
-      <Text style={styles.text}>{props.title}</Text>
+      <ThemedText style={styles.text}>{props.title}</ThemedText>
     </Pressable>
   );
 }
@@ -29,6 +30,5 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "white",
   },
 });

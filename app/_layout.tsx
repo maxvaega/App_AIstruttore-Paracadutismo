@@ -9,7 +9,10 @@ import {
   SafeAreaView,
   StatusBar,
 } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { useAuth } from "@/hooks/useAuth";
 import LoginScreen from "./login";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -52,12 +55,16 @@ const Drawer = createDrawerNavigator();
 function Childrens() {
   const { isLoading, user } = useAuth();
   const chatContainerBackground = useThemeColor({}, "chatContainerBackground");
+  const insets = useSafeAreaInsets();
+
   return (
     <SafeAreaProvider>
-      <SafeAreaView
+      <View
         style={{
           flex: 1,
           backgroundColor: chatContainerBackground,
+          paddingTop: Platform.OS === "ios" ? 0 : insets.top,
+          paddingBottom: insets.bottom,
         }}
       >
         <StatusBar
@@ -98,7 +105,7 @@ function Childrens() {
             </Drawer.Navigator>
           </GestureHandlerRootView>
         )}
-      </SafeAreaView>
+      </View>
     </SafeAreaProvider>
   );
 }

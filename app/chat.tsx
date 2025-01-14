@@ -84,8 +84,6 @@ export default function ChatScreen() {
   const chatContainerBackground = useThemeColor({}, "chatContainerBackground");
   const chatComposerBackground = useThemeColor({}, "chatComposerBackground");
 
-  const aaa = useColorScheme();
-  console.log("###", aaa);
   return (
     <View
       style={{
@@ -122,8 +120,9 @@ export default function ChatScreen() {
               borderRadius: 40,
               borderColor: "#ffffff",
               display: "flex",
+              alignItems: "center",
               paddingTop: 8,
-              paddingBottom: 8,
+              paddingBottom: 32,
               paddingLeft: 16,
               paddingRight: 16,
               margin: 0,

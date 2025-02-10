@@ -75,8 +75,7 @@ export default function ChatScreen() {
 
       return newList;
     });
-
-    run(messageText);
+    run(messageText, user?.sub!);
   }, []);
 
   const [text, setText] = useState("");

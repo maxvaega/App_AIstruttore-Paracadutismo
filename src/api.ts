@@ -21,7 +21,7 @@ export async function ask(message: string) {
   }
 }
 
-export async function askWithStream(message: string) {
+export async function askWithStream(message: string, userId: string) {
   try {
     const controller = new AbortController();
     const response = await fetchExpo(BASE_URL + "/stream_query", {
@@ -31,7 +31,7 @@ export async function askWithStream(message: string) {
       },
       body: JSON.stringify({
         message,
-        userid: "todo",
+        userid: userId,
       }),
       signal: controller.signal,
     });

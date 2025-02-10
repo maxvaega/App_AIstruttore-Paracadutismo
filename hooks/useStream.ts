@@ -28,9 +28,9 @@ export function useStream(options: Options) {
     onEndStreamRef.current = options.onEndStream;
   });
 
-  const run = useCallback(async (message: string) => {
+  const run = useCallback(async (message: string, userId: string) => {
     setLoading(true);
-    const response = await askWithStream(message);
+    const response = await askWithStream(message, userId);
     const reader = response?.body?.getReader();
 
     if (!reader) {

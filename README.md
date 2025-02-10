@@ -3,7 +3,7 @@
 1. nvm
 2. node 21
 
-## Steps
+## Installation Steps
 
 1. go in the project folder and type in terminal `npm install`
 2. (Optional)install nvm with "brew" => https://formulae.brew.sh/formula/nvm
@@ -23,3 +23,7 @@
         - connect the iphone to the computer and trust it
     - on your iPhone: Navigate to Settings > General > Device Management. Select the developer under the ENTERPRISE APPS section. Press Trust [Developer]
     - type `npx expo run:ios -d "iPhone 15 pro di Massimo" --configuration Release` in the console (replace the device name)
+
+## to run on web
+
+- type `npm run web`

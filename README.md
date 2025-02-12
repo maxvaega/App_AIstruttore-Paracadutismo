@@ -27,3 +27,8 @@
 ## to run on web
 
 - type `npm run web`
+
+## produce a release apk (android):
+1. cd android && ./gradlew app:bundleRelease => create aab
+2. npx expo run:android --variant release => create apk under android/app/build/outputs/apk/release/app-release.apk
+- this command will fail without right configuration like that: https://docs.expo.dev/guides/local-app-production/

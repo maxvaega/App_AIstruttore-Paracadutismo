@@ -32,5 +32,14 @@
 1. cd android && ./gradlew app:bundleRelease => create aab
 2. npx expo run:android --variant release => create apk under android/app/build/outputs/apk/release/app-release.apk
 - this command will fail without right configuration like that: https://docs.expo.dev/guides/local-app-production/
-- leggerei https://docs.expo.dev/build/setup/
+
+## Produce a release with EAS
+
+Guida: https://docs.expo.dev/build/setup/
+
+- npm install -g eas-cli
+- eas login
+- eas build:configure
+- (apple only) eas device:create
+- (npm i)
 - npx eas build --profile <profile-name>

@@ -33,3 +33,4 @@
 2. npx expo run:android --variant release => create apk under android/app/build/outputs/apk/release/app-release.apk
 - this command will fail without right configuration like that: https://docs.expo.dev/guides/local-app-production/
 - leggerei https://docs.expo.dev/build/setup/
+- npx eas build --profile <profile-name>
